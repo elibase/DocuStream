@@ -33,7 +33,7 @@ This project is intended as a portfolio demonstration of:
 | RPA orchestration | UiPath Studio | Coordinate the workflow, manage files, call the API, and write outputs |
 | Backend API | Python + FastAPI | Expose a document-extraction endpoint |
 | AI extraction | An LLM API with structured-output support | Extract fields from invoice text |
-| PDF text extraction | A Python PDF text-extraction library | Read text from digital PDFs |
+| PDF text extraction | pypdf | Read text from digital PDFs |
 | OCR (optional) | An OCR tool or service | Read scanned PDFs or images |
 | Output | CSV or Excel | Store extracted fields and processing statuses |
 | Tests | Python `pytest` | Test validation rules and error cases |
@@ -112,14 +112,15 @@ Keep workflow completion separate from invoice validity. For example, an invoice
 
 ### Milestone 3 — AI extraction API
 
-- [ ] Create a FastAPI endpoint such as `POST /extract`.
-- [ ] Define a Pydantic schema for the expected response.
-- [ ] Implement a mocked extractor first.
+- [x] Create `GET /health` and `POST /extract` FastAPI endpoints.
+- [x] Define Pydantic schemas for extracted fields and API responses.
+- [x] Implement a mocked extractor using the fictional invoice labels.
 - [ ] Add the chosen LLM provider after the schema and workflow work.
-- [ ] Handle timeouts, malformed output, and API errors.
+- [x] Handle upload errors, malformed structured output, and extraction-service exceptions; test timeout and service-error mappings with simulated failures.
+- [ ] Configure and verify real provider request timeouts and provider-specific error handling when integrating the LLM.
 - [ ] Keep API keys in environment variables; never commit secrets.
+- [x] Test health checks, successful extraction, reviewable business errors, invalid uploads, and simulated extractor failures.
 
-**Done when:** The API returns validated structured data or a clear error for a sample document.
 
 ### Milestone 4 — UiPath integration
 
