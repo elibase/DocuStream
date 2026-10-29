@@ -24,7 +24,7 @@
       "package": {
         "key": "75dad41f-e5f3-4ef1-9243-dba3f1e6e5c9"
       },
-      "packageName": "Solution.process.RPA.Workflow",
+      "packageName": "uipath.process.RPA.Workflow",
       "jobPriority": "Medium",
       "jobRecording": "Disabled",
       "targetFrameworkValue": "Portable",
