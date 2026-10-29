@@ -91,22 +91,22 @@ Keep workflow completion separate from invoice validity. For example, an invoice
 
 ### Milestone 1 — Basic document processor
 
-- [ ] Create 10–15 fictional sample invoices.
-- [ ] Set up a local input folder and output folder.
-- [ ] Extract text from digital PDF invoices.
-- [ ] Parse a small set of known fields or use mocked AI responses.
-- [ ] Export the extracted data to CSV.
+- [x] Create 10–15 fictional sample invoices.
+- [x] Set up a local input folder and output folder.
+- [x] Extract text from digital PDF invoices.
+- [x] Parse a small set of known fields or use mocked AI responses.
+- [x] Export the extracted data to CSV.
 
 **Done when:** A batch of sample invoices produces a structured output file.
 
 ### Milestone 2 — Validation and exception handling
 
-- [ ] Validate required fields and date formats.
-- [ ] Check arithmetic and monetary values.
-- [ ] Detect duplicate invoice records.
-- [ ] Assign processing and validation statuses.
-- [ ] Log errors and exception reasons.
-- [ ] Add tests for valid, invalid, duplicate, and unreadable documents.
+- [x] Validate required fields and date formats.
+- [x] Check arithmetic and monetary values.
+- [x] Detect duplicate invoice records.
+- [x] Assign processing and validation statuses.
+- [x] Log errors and exception reasons.
+- [x] Add tests for valid, invalid, duplicate, and unreadable documents.
 
 **Done when:** Invalid records are flagged instead of being silently treated as valid.
 
