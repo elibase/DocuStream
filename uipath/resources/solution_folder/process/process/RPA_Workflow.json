@@ -1,0 +1,44 @@
+{
+  "docVersion": "1.0.0",
+  "resource": {
+    "name": "RPA Workflow",
+    "kind": "process",
+    "type": "process",
+    "apiVersion": "orchestrator.uipath.com/v1",
+    "projectKey": "ff6fe587-3ca0-4594-8cc1-c5e9da29a0b1",
+    "dependencies": [
+      {
+        "kind": "package",
+        "name": "RPA Workflow"
+      }
+    ],
+    "runtimeDependencies": [],
+    "folders": [
+      {
+        "fullyQualifiedName": "solution_folder"
+      }
+    ],
+    "spec": {
+      "type": "Process",
+      "name": "RPA Workflow",
+      "package": {
+        "key": "75dad41f-e5f3-4ef1-9243-dba3f1e6e5c9"
+      },
+      "packageName": "Solution.process.RPA.Workflow",
+      "jobPriority": "Medium",
+      "jobRecording": "Disabled",
+      "targetFrameworkValue": "Portable",
+      "duration": 40,
+      "frequency": 500,
+      "quality": 100,
+      "remoteControlAccess": "None",
+      "retentionAction": "Delete",
+      "retentionPeriod": 30,
+      "staleRetentionAction": "Delete",
+      "staleRetentionPeriod": 180
+    },
+    "locks": [],
+    "key": "005628f6-9a46-4ae2-bd3d-746e360eabbb",
+    "files": []
+  }
+}

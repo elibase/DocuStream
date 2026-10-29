@@ -1,0 +1,34 @@
+# Operating system files
+.DS_Store
+Thumbs.db
+desktop.ini
+# Studio temporary files and local caches (at any project depth)
+~*
+*_UiCache.zip
+**/.local
+*.crswap
+**/.entities/EntitiesBundle.*.zip
+remote-repository.config.json
+.sw-path-marker
+venv/
+.venv/
+__pycache__/
+node_modules/
+**/.agent-builder/
+
+# Generated build and publish output
+bin/
+obj/
+*.nupkg
+*.snupkg
+
+# Local execution logs
+*.log
+
+# Local environment configuration
+.env
+.env.*
+!.env.example
+
+# Keep workflow and solution source files tracked, including Main.xaml,
+# project.json, project.uiproj, entry-points.json, and *.uipx.

@@ -1,5 +1,13 @@
 # Running and understanding the tests
 
+## Accuracy benchmark
+
+See `docs/Accuracy_Benchmark.md` for the live parser-versus-Ollama comparison.
+Run `.\.venv\Scripts\python.exe -m scripts.benchmark_accuracy` from the project
+root to generate Markdown and JSON reports in `output/`. This is separate from
+pytest and requires Ollama. `test_benchmark.py` tests scoring and normalization
+without invoking a model.
+
 ## Ollama integration tests
 
 Run the complete suite, including pytest API and Ollama adapter tests, from the
