@@ -6,20 +6,12 @@ from fastapi import FastAPI, HTTPException, UploadFile
 from pydantic import ValidationError
 from pypdf import PdfReader
 
-from .main import parse_invoice
+from .extraction.ollama_extractor import extract_fields, ExtractionUnavailable
 from .schema import ExtractedFields, HealthResponse, InvoiceResponse
 from .validation.rules import validate_required_fields_and_dates, validate_amounts
 
 app = FastAPI(title="DocFlow AI", version="0.1.0")
 MAX_UPLOAD_BYTES = 10 * 1024 * 1024
-
-
-def extract_fields(text: str) -> ExtractedFields:
-    """Local mock for the sample format; replace with an AI adapter later."""
-    parsed = parse_invoice(text)
-    return ExtractedFields.model_validate({
-        field: parsed.get(field) or None for field in ExtractedFields.model_fields
-    })
 
 
 @app.get("/health", response_model=HealthResponse)
@@ -52,6 +44,8 @@ def extract(file: UploadFile):
             fields = ExtractedFields.model_validate(extract_fields(text))
         except TimeoutError:
             raise HTTPException(504, "Extraction service timed out.") from None
+        except ExtractionUnavailable as error:
+            raise HTTPException(503, str(error)) from None
         except (ValidationError, ValueError):
             raise HTTPException(502, "Extraction service returned invalid structured data.") from None
         except Exception:

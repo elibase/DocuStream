@@ -1,5 +1,25 @@
 # Running and understanding the tests
 
+## Ollama integration tests
+
+Run the complete suite, including pytest API and Ollama adapter tests, from the
+project root:
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest -q -p no:cacheprovider
+```
+
+`test_ollama.py` checks schema-constrained requests, thinking disabled, configured
+model and timeout, malformed/incomplete output, connection errors, missing models,
+inference failures, timeouts, configuration rejection, and client cleanup. These
+tests simulate Ollama responses and do not require a model or running server.
+API tests explicitly select mock extraction and cover the 503 unavailable response.
+For an opt-in live run against the installed model, run
+`.\.venv\Scripts\python.exe -m scripts.verify_ollama` from the project root.
+This checks all 12 reference invoices and writes `output/ollama_verification.json`.
+The unittest commands below cover the original 10 unittest methods only; use
+pytest to include the API and adapter tests.
+
 Run these PowerShell commands from the project root (the directory containing
 `requirements.txt`). The tests use Python's built-in `unittest` framework and
 the project's installed dependencies, including `pypdf`. No pytest installation

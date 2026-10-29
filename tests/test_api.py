@@ -7,10 +7,12 @@ from pypdf import PdfWriter
 import pytest
 
 from src.routes import app
+from src.extraction.ollama_extractor import ExtractionUnavailable
 
 
 @pytest.fixture
-def client():
+def client(monkeypatch):
+    monkeypatch.setenv('EXTRACTION_BACKEND', 'mock')
     with TestClient(app) as client:
         yield client
 
@@ -83,6 +85,7 @@ def test_business_errors_are_reviewable(client, pdf):
 
 @pytest.mark.parametrize('result,status', [
     (TimeoutError('private detail'), 504),
+    (ExtractionUnavailable('Ollama is unavailable; start the local server.'), 503),
     (RuntimeError('private detail'), 502),
     ({'total': []}, 502),
 ])

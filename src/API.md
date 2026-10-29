@@ -18,8 +18,10 @@ Open http://127.0.0.1:8000/docs to try the endpoints interactively.
 curl.exe -F "file=@sample_data/invoices/invoice_001.pdf" http://127.0.0.1:8000/extract
 ```
 
-Extraction currently uses a local mock that parses the fictional sample labels;
-no AI provider or credentials are needed. Amounts and dates are returned as raw
+Extraction defaults to the local Ollama `qwen3:8b` model. Start Ollama and download
+the model before calling `/extract`; see `../docs/Ollama_Setup.md` for configuration.
+Set `EXTRACTION_BACKEND=mock` to use the sample-label parser instead.
+No cloud credentials are needed. Amounts and dates are returned as raw
 strings (or null when missing) so invalid business values can be reviewed.
 Pydantic validates the structure, and deterministic rules check business values.
 
@@ -27,8 +29,9 @@ HTTP 200 includes ReadyForReview or NeedsReview. Missing uploads, invalid PDFs,
 encrypted PDFs that cannot be read, and PDFs without text return 422. Unsupported
 extensions return 415; oversized file content returns 413. The extraction adapter
 maps timeout errors to 504 and malformed structured results or service failures
-to 502. These mappings are tested with simulated failures; there is no live AI
-provider or network timeout implementation yet.
+to 502. An unavailable Ollama server, missing model, or invalid configuration
+returns 503. The client has a configurable timeout (120 seconds by default).
+`GET /health` remains a liveness check even when Ollama is unavailable.
 
 Uploads are not saved, and API calls do not write the batch CSV or log.
 The single-file API does not detect duplicates; batch duplicate checks remain
