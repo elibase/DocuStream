@@ -1,8 +1,8 @@
-# DocFlow AI — AI-Powered Document Processing with RPA
+# AIProcessingBot (DocuStream) — AI-Powered Document Processing with RPA
 
 ## Project Overview
 
-**DocFlow AI** is a small business-automation project that uses Robotic Process Automation (RPA) and an AI-powered extraction service to process invoice documents.
+**DocuStream** is a small business-automation project that uses Robotic Process Automation (RPA) and an AI-powered extraction service to process invoice documents.
 
 The goal is to automate repetitive invoice-handling tasks while keeping validation deterministic and routing incomplete or questionable records to a person for review.
 
@@ -170,7 +170,7 @@ the deterministic parser. No paid inference or cloud API key is required.
 ## Suggested Repository Structure
 
 ```text
-docflow-ai/
+DocuStream/
 ├── README.md
 ├── sample_data/
 │   ├── invoices/
