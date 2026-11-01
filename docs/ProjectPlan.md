@@ -1,8 +1,8 @@
-# DocFlow AI — AI-Powered Document Processing with RPA
+# AIProcessingBot (DocuStream) — AI-Powered Document Processing with RPA
 
 ## Project Overview
 
-**DocFlow AI** is a small business-automation project that uses Robotic Process Automation (RPA) and an AI-powered extraction service to process invoice documents.
+**DocuStream** is a small business-automation project that uses Robotic Process Automation (RPA) and an AI-powered extraction service to process invoice documents.
 
 The goal is to automate repetitive invoice-handling tasks while keeping validation deterministic and routing incomplete or questionable records to a person for review.
 
@@ -20,7 +20,7 @@ This project is intended as a portfolio demonstration of:
 
 1. **Input documents** — Read PDF invoices from an input folder.
 2. **Text extraction** — Extract text from each PDF. Scanned documents may require OCR.
-3. **AI extraction** — Send the text to an LLM-backed service and request structured fields.
+3. **AI extraction** — Send the text to a locally running Ollama model and request structured invoice fields.
 4. **Validation** — Apply ordinary code-based rules to check required fields, dates, amounts, arithmetic, and duplicates.
 5. **Classification** — Mark records as `ReadyForReview`, `NeedsReview`, or `Failed`.
 6. **Output** — Save results to CSV or Excel, move files into appropriate folders, and write processing logs.
@@ -32,14 +32,22 @@ This project is intended as a portfolio demonstration of:
 |---|---|---|
 | RPA orchestration | UiPath Studio | Coordinate the workflow, manage files, call the API, and write outputs |
 | Backend API | Python + FastAPI | Expose a document-extraction endpoint |
-| AI extraction | An LLM API with structured-output support | Extract fields from invoice text |
-| PDF text extraction | A Python PDF text-extraction library | Read text from digital PDFs |
+| AI extraction | Ollama with a local model and JSON-schema structured outputs | Extract fields from invoice text without paid cloud API calls |
+| PDF text extraction | pypdf | Read text from digital PDFs |
 | OCR (optional) | An OCR tool or service | Read scanned PDFs or images |
 | Output | CSV or Excel | Store extracted fields and processing statuses |
 | Tests | Python `pytest` | Test validation rules and error cases |
 | Version control | Git | Track changes and publish the project |
 
-The AI provider can be selected later. Keep the extraction service behind an API interface so the provider can be changed without rewriting the whole workflow. A mocked extraction response can be used while building the first version.
+Ollama is the selected inference runtime. Run a downloaded model locally; this
+project will not depend on paid cloud inference or OpenAI API billing. Keep the
+extractor behind the existing FastAPI interface so UiPath does not depend on the
+model choice. Retain the mocked extractor for automated tests and development.
+
+The development computer has 32 GB of RAM (user reported). Choose the model and
+quantization after checking available memory and CPU/GPU capabilities, then measure
+extraction accuracy and response times on the fictional invoices. RAM alone does
+not establish inference speed. Model selection and installation remain pending.
 
 ## Invoice Data Model
 
@@ -91,35 +99,53 @@ Keep workflow completion separate from invoice validity. For example, an invoice
 
 ### Milestone 1 — Basic document processor
 
-- [ ] Create 10–15 fictional sample invoices.
-- [ ] Set up a local input folder and output folder.
-- [ ] Extract text from digital PDF invoices.
-- [ ] Parse a small set of known fields or use mocked AI responses.
-- [ ] Export the extracted data to CSV.
+- [x] Create 10–15 fictional sample invoices.
+- [x] Set up a local input folder and output folder.
+- [x] Extract text from digital PDF invoices.
+- [x] Parse a small set of known fields or use mocked AI responses.
+- [x] Export the extracted data to CSV.
 
 **Done when:** A batch of sample invoices produces a structured output file.
 
 ### Milestone 2 — Validation and exception handling
 
-- [ ] Validate required fields and date formats.
-- [ ] Check arithmetic and monetary values.
-- [ ] Detect duplicate invoice records.
-- [ ] Assign processing and validation statuses.
-- [ ] Log errors and exception reasons.
-- [ ] Add tests for valid, invalid, duplicate, and unreadable documents.
+- [x] Validate required fields and date formats.
+- [x] Check arithmetic and monetary values.
+- [x] Detect duplicate invoice records.
+- [x] Assign processing and validation statuses.
+- [x] Log errors and exception reasons.
+- [x] Add tests for valid, invalid, duplicate, and unreadable documents.
 
 **Done when:** Invalid records are flagged instead of being silently treated as valid.
 
 ### Milestone 3 — AI extraction API
 
-- [ ] Create a FastAPI endpoint such as `POST /extract`.
-- [ ] Define a Pydantic schema for the expected response.
-- [ ] Implement a mocked extractor first.
-- [ ] Add the chosen LLM provider after the schema and workflow work.
-- [ ] Handle timeouts, malformed output, and API errors.
-- [ ] Keep API keys in environment variables; never commit secrets.
+- [x] Create `GET /health` and `POST /extract` FastAPI endpoints.
+- [x] Define Pydantic schemas for extracted fields and API responses.
+- [x] Implement a mocked extractor using the fictional invoice labels.
+- [x] Select Ollama with local inference as the no-paid-API integration approach.
+- [x] Install Ollama and download a suitable local model; selected `qwen3:8b` with Q4_K_M quantization.
+- [x] Connect the extractor to Ollama using the invoice JSON schema and validate the returned fields with Pydantic.
+- [x] Handle upload errors, malformed structured output, and extraction-service exceptions; test timeout and service-error mappings with simulated failures.
+- [x] Configure and verify Ollama request timeouts and handling for an unavailable server, missing model, malformed output, and inference errors (automated simulated error tests).
+- [x] Configure the Ollama base URL, model, and timeout through environment variables; document defaults in `.env.example`. Local inference does not require a cloud API key; never commit secrets if another provider is added later.
+- [x] Test health checks, successful extraction, reviewable business errors, invalid uploads, and simulated extractor failures.
+- [x] Test the Ollama adapter with simulated responses and run an actual local-model extraction against the fictional sample invoices.
 
-**Done when:** The API returns validated structured data or a clear error for a sample document.
+**Done when:** The API extracts fields using the local Ollama model, returns
+schema-validated structured data or clear errors, and passes the existing business
+validation and API tests without requiring paid inference.
+
+**Current status:** Milestone 3 is complete. `/extract` uses local `qwen3:8b`
+(Q4_K_M) by default, with mock mode retained for offline development. The automated
+suite passes 41 tests and 69 subtests. A real local inference run matched all eight
+extracted fields for all 12 fictional sample invoices and returned ReadyForReview
+for each, taking about 4–4.4 seconds per invoice with the model loaded. These
+results cover the current samples, not arbitrary invoice layouts. See
+`output/ollama_verification.json` for the local run report and
+`docs/Ollama_Setup.md` for configuration and verification instructions.
+Duplicate detection remains in the batch workflow, whose CSV command still uses
+the deterministic parser. No paid inference or cloud API key is required.
 
 ### Milestone 4 — UiPath integration
 
@@ -144,7 +170,7 @@ Keep workflow completion separate from invoice validity. For example, an invoice
 ## Suggested Repository Structure
 
 ```text
-docflow-ai/
+DocuStream/
 ├── README.md
 ├── sample_data/
 │   ├── invoices/
@@ -204,6 +230,8 @@ Adjust this statement to match the features actually completed.
 - UiPath Studio: https://www.uipath.com/product/studio
 - Microsoft Power Automate (alternative RPA platform): https://www.microsoft.com/en-us/power-platform/products/power-automate
 - FastAPI: https://fastapi.tiangolo.com/
+- Ollama: https://ollama.com/
+- Ollama structured outputs: https://ollama.com/blog/structured-outputs
 - Playwright for Python (optional alternative for browser automation): https://playwright.dev/python/
 
 ## Future Enhancements

@@ -1,0 +1,10 @@
+{
+  "SolutionId": "4557bb3e-8417-49f5-a1e7-e6b8139de23c",
+  "Projects": [
+    {
+      "Id": "ff6fe587-3ca0-4594-8cc1-c5e9da29a0b1",
+      "Type": "Process",
+      "ProjectRelativePath": "RPA Workflow/project.uiproj"
+    }
+  ]
+}

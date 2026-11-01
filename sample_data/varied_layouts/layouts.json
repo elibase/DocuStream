@@ -1,0 +1,62 @@
+[
+  {
+    "source_file": "varied_invoice_001.pdf",
+    "layout": "Two-column supplier invoice",
+    "pages": 1
+  },
+  {
+    "source_file": "varied_invoice_002.pdf",
+    "layout": "Letter-style service invoice",
+    "pages": 1
+  },
+  {
+    "source_file": "varied_invoice_003.pdf",
+    "layout": "Compact invoice with optional due date omitted",
+    "pages": 1
+  },
+  {
+    "source_file": "varied_invoice_004.pdf",
+    "layout": "Two-page purchase invoice with totals on page two",
+    "pages": 2
+  },
+  {
+    "source_file": "varied_invoice_005.pdf",
+    "layout": "Two-column supplier invoice",
+    "pages": 1
+  },
+  {
+    "source_file": "varied_invoice_006.pdf",
+    "layout": "Letter-style service invoice",
+    "pages": 1
+  },
+  {
+    "source_file": "varied_invoice_007.pdf",
+    "layout": "Compact invoice with optional due date omitted",
+    "pages": 1
+  },
+  {
+    "source_file": "varied_invoice_008.pdf",
+    "layout": "Two-page purchase invoice with totals on page two",
+    "pages": 2
+  },
+  {
+    "source_file": "varied_invoice_009.pdf",
+    "layout": "Two-column supplier invoice",
+    "pages": 1
+  },
+  {
+    "source_file": "varied_invoice_010.pdf",
+    "layout": "Letter-style service invoice",
+    "pages": 1
+  },
+  {
+    "source_file": "varied_invoice_011.pdf",
+    "layout": "Compact invoice with optional due date omitted",
+    "pages": 1
+  },
+  {
+    "source_file": "varied_invoice_012.pdf",
+    "layout": "Two-page purchase invoice with totals on page two",
+    "pages": 2
+  }
+]
